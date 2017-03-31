@@ -2,8 +2,8 @@ describe('Login Page Test Spec' , function(){
 
        beforeEach(function(){
                browser.driver.manage().deleteAllCookies();
-
-               browser.get('http://givingapp.stage-roundglass.com/login');
+               browser.driver.manage().window().maximize();
+               browser.get('http://givingapp-qa.stage-roundglass.com/login');
                }) //beforeEach block
 
        it('should check login with invalid email(like abcdef)' , function(){
@@ -106,7 +106,7 @@ describe('Login Page Test Spec' , function(){
                browser.sleep(2000);
                element.all(by.css('CustomAlert'));
                expect(element(by.css('.alertHeader  h1:nth-child(1)')).getText()).toEqual('Error');
-               expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toMatch('Invalid email id');
+               expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toMatch('does not exist');
                element(by.css('.alertFooter  button:nth-child(1)')).click();});
 
                        });
@@ -186,7 +186,14 @@ describe('Login Page Test Spec' , function(){
                });
                expect(browser.getCurrentUrl()).toMatch('/profile');});});
 
-               });
+               }); //it block- successful login
+
+       it('should check logout to be successful',function(){
+            element(by.css('#desktopMenu ul li a')).click();
+            element(by.css('#userMenu li.text-center a')).click();
+            browser.sleep(2000);
+
+       }); // it block-successful logout
 
        }); //describe block
 

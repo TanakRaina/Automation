@@ -7,9 +7,16 @@
   "invalidPwd1":"123",
   "incorrectPwd":"1234567",
   "validPwd":"123456789",
-  "CampaignName":"Givers and Takers",
-  "CampaignSummary":"Every day, employees make decisions about whether to act like givers or like takers. When they act like givers, they contribute to others without seeking anything in return. They might offer assistance, share knowledge, or make valuable introductions.",
+  "CampaignName":"Corporate Welfare",
+  "CampaignSummary":"Every day employees make decisions about whether to act like givers or like takers When they act like givers they contribute to others without seeking anything in return They might offer assistance share knowledge or make valuable introductions.",
   "CampaignLocation":"Mohali , India",
-  "CampaignOrg":"apex"
+  "CampaignOrg":"HelpingHut",
+  "storyTitle":"GLOBAL GIVING",
+  "storyDescription":"GlobalGiving installed conversion tracking to track how many donations and newsletter subscriptions were coming from their Ad Grants campaigns. They used conversion tracking metrics to optimize their campaigns and ultimately help them max out their monthly budget of $10,000. This allowed them to apply for the Grantspro program, receive an increased budget of $40,000 a month and see an even greater impact from their Ad Grants account. ",
+  "org":"FundraiserStage",
+  "DonateCardNo":"4111 1111 1111 1111",
+  "DonateSecurityCode":"562",
+  "DonateExpiryDate":"09/21"
+
 }
 
