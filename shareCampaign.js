@@ -86,4 +86,10 @@ describe('Check sharing for campaigns' , function(){
             });
             });
 
+   it('should check logout to be successful',function(){
+               element(by.css('#desktopMenu ul li a')).click();
+               element(by.css('#userMenu li.text-center a')).click();
+               browser.sleep(2000);
+
+               }); // it block-successful logout
 });//describe block

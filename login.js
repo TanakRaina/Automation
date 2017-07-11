@@ -1,53 +1,36 @@
-describe('Login Page Test Spec' , function(){
-
-       beforeEach(function(){
-               browser.driver.manage().deleteAllCookies();
-               browser.driver.manage().window().maximize();
-               browser.get('http://givingapp.stage-roundglass.com/login');
-               }) //beforeEach block
+describe('Login Page Test Spec -Phase 1' , function(){
+                browser.driver.manage().deleteAllCookies();
+                browser.driver.manage().window().maximize();
+                browser.get('http://givingapp-qa.stage-roundglass.com/login');   
+     beforeEach(function(){ 
+                element(by.id('emailInput')).click().clear();
+                element(by.id('passwordInput')).click().clear();
+                browser.sleep(2000);
+        });//beforeEach block
 
        it('should check login with invalid email(like abcdef)' , function(){
 
                 element(by.id('emailInput')).sendKeys(browser.params.invalidEmail1)
                 element(by.id('passwordInput')).sendKeys(browser.params.validPwd).then(function (){
-
                 browser.sleep( 2000 );
                 expect(element(by.cssContainingText('.errorMsg', 'Invalid email address')).getText()).toEqual('Invalid email address');
-
                 });
                 }); //it block -invalid id
        it('should check login with invalid email(like abc.com)' , function(){
-
                 element(by.id('emailInput')).sendKeys(browser.params.invalidEmail2)
                 element(by.id('passwordInput')).sendKeys(browser.params.validPwd).then(function (){
-
                 browser.sleep( 2000 );
                 expect(element(by.cssContainingText('.errorMsg', 'Invalid email address')).getText()).toEqual('Invalid email address');
-
                  });
                  }); //it block -invalid id
 
        it('should check login with invalid email(like abc.com@gmail)' , function(){
-
                 element(by.id('emailInput')).sendKeys(browser.params.invalidEmail3)
                 element(by.id('passwordInput')).sendKeys(browser.params.validPwd).then(function (){
-
                 browser.sleep( 2000 );
                 expect(element(by.cssContainingText('.errorMsg', 'Invalid email address')).getText()).toEqual('Invalid email address');
                 });
                 }); //it block -invalid id
-
-       it('should check login  against blank email', function(){
-
-                element(by.id('emailInput')).sendKeys('');
-                element(by.id('passwordInput')).sendKeys(browser.params.validPwd);
-                element(by.id('emailInput')).click().then(function (){
-                browser.sleep( 2000 );
-                expect(element(by.cssContainingText('.errorMsg', 'Required')).getText()).toEqual('Required');
-
-                });
-                });//it block -blank inputs
-
 
        it('should check login with invalid password(less than 6 characters)' ,function(){
                   element(by.id('emailInput')).sendKeys(browser.params.validEmail)
@@ -70,8 +53,56 @@ describe('Login Page Test Spec' , function(){
 
                   });
                   });//it block -invalid pwd
+       
+       it('should check alert on incorrect credentials',function(){
+                element(by.id('emailInput')).sendKeys(browser.params.validEmail);
+                element(by.id('passwordInput')).sendKeys(browser.params.incorrectPwd);
+                element(by.css('.loginForm button[type="submit"]')).click().then(function(){
+                browser.sleep(2000);
+                   element.all(by.css('CustomAlert'));
+                   expect(element(by.css('.alertHeader  h1:nth-child(1)')).getText()).toEqual('Error');
+                   expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toEqual('You have entered an incorrect email address and/or password. Please try again.');
+                   element(by.css('.alertFooter  button:nth-child(1)')).click();});
 
-       it('should check login  against blank password input',function(){
+                })//itblock-incorrect credentials
+
+       it('should check alert for unregistered id',function(){
+                element(by.id('emailInput')).sendKeys(browser.params.unregisteredEmail);
+                element(by.id('passwordInput')).sendKeys(browser.params.validPwd);
+                element(by.css('.loginForm button[type="submit"]')).click().then(function(){
+                browser.sleep(2000);
+                   element.all(by.css('CustomAlert'));
+                   expect(element(by.css('.alertHeader  h1:nth-child(1)')).getText()).toEqual('Error');
+                   expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toMatch('You have entered an email address which doesnot match our records.');
+                   element(by.css('.alertFooter  button:nth-child(1)')).click();});
+
+                })//itblock-unregistered user
+
+
+});
+
+
+
+describe('Login Page Test Spec - Phase 2' , function(){
+
+       beforeEach(function(){
+               browser.driver.manage().deleteAllCookies();
+               browser.driver.manage().window().maximize();
+               browser.get('http://givingapp-qa.stage-roundglass.com/login');
+               }) //beforeEach block
+       
+       it('should check login  against blank email', function(){
+
+                element(by.id('emailInput')).sendKeys('');
+                element(by.id('passwordInput')).sendKeys(browser.params.validPwd);
+                element(by.id('emailInput')).click().then(function (){
+                browser.sleep( 2000 );
+                expect(element(by.cssContainingText('.errorMsg', 'Required')).getText()).toEqual('Required');
+
+                });
+        });//it block -blank inputs
+        
+        it('should check login  against blank password input',function(){
 
                    element(by.id('emailInput')).sendKeys(browser.params.validEmail);
                    element(by.id('passwordInput')).sendKeys('').then(function (){
@@ -79,8 +110,9 @@ describe('Login Page Test Spec' , function(){
                    element(by.id('emailInput')).click();
                    expect(element(by.cssContainingText('.errorMsg', 'Required')).getText()).toEqual('Required');
 
-                   }); });//it block-blank pwd
+                }); });//it block-blank pwd
 
+       
        it('should check correct password recovery' ,function(){
                 element(by.css('.form-action  p:nth-child(2)  a:nth-child(1)')).click().then(function (){
 
@@ -106,7 +138,7 @@ describe('Login Page Test Spec' , function(){
                browser.sleep(2000);
                element.all(by.css('CustomAlert'));
                expect(element(by.css('.alertHeader  h1:nth-child(1)')).getText()).toEqual('Error');
-               expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toMatch('does not exist');
+               expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toContain('which doesnot match our records. Please check again.');
                element(by.css('.alertFooter  button:nth-child(1)')).click();});
 
                        });
@@ -125,42 +157,16 @@ describe('Login Page Test Spec' , function(){
 
                  });  //it block - go back
 
-
-       it('should check alert on incorrect credentials',function(){
-                element(by.id('emailInput')).sendKeys(browser.params.validEmail);
-                element(by.id('passwordInput')).sendKeys(browser.params.incorrectPwd);
-                element(by.css('.loginForm button[type="submit"]')).click().then(function(){
-                browser.sleep(2000);
-                   element.all(by.css('CustomAlert'));
-                   expect(element(by.css('.alertHeader  h1:nth-child(1)')).getText()).toEqual('Error');
-                   expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toEqual('The user credentials were incorrect.');
-                   element(by.css('.alertFooter  button:nth-child(1)')).click();});
-
-                })//itblock-incorrect credentials
-
-       it('should check alert for unregistered id',function(){
-                element(by.id('emailInput')).sendKeys(browser.params.unregisteredEmail);
-                element(by.id('passwordInput')).sendKeys(browser.params.validPwd);
-                element(by.css('.loginForm button[type="submit"]')).click().then(function(){
-                browser.sleep(2000);
-                   element.all(by.css('CustomAlert'));
-                   expect(element(by.css('.alertHeader  h1:nth-child(1)')).getText()).toEqual('Error');
-                   expect(element(by.css('.innerBody  div:nth-child(1)')).getText()).toEqual('The user with email id not exists');
-                   element(by.css('.alertFooter  button:nth-child(1)')).click();});
-
-                })//itblock-unregistered user
-
-
        it('should check facebook login',function(){
                  element.all(by.css('.fullWidthBtn a')).first().click().then(function(){
-                 expect(browser.driver.getCurrentUrl()).toMatch('/facebook');})
+                 expect(browser.driver.getCurrentUrl()).toContain('facebook');})
                  }); //it block-facebook login
 
 
 
        it('should check google login',function(){
                  element.all(by.css('.fullWidthBtn a')).last().click().then(function(){
-                 expect(browser.driver.getCurrentUrl()).toMatch('/google');})
+                 expect(browser.driver.getCurrentUrl()).toMatch('google');})
                  }); //it block-google login
 
 
@@ -178,24 +184,10 @@ describe('Login Page Test Spec' , function(){
                }); //it block- successful login
 
        it('should check logout to be successful',function(){
-            element(by.css('#desktopMenu ul li a')).click();
-            element(by.css('#userMenu li.text-center a')).click();
+            element(by.css('#navbar ul.nav.navbar-nav.navbar-right.right-menu li.dropdown.profile a')).click();
+            element(by.css('#userMenu li:nth-child(6) a')).click();
             browser.sleep(2000);
 
-       }); // it block-successful logout
-
-       }); //describe block
-
-
-       it('should check GO BACK on signup page' ,function(){
-                element(by.css('.signupLink')).click().then(function(){
-                browser.sleep(4000)
-                element(by.cssContainingText('.btn','Go back')).getText().then(function(value){console.log(value)})
-                browser.driver.wait(function(){
-                        return browser.driver.getCurrentUrl().then(function(url){
-                        return (/login/).test(url);
-                        });
-                        expect(browser.getCurrentUrl()).toMatch('/login');});
-                });
-
-                });
+       }); // it block-successful logout 
+          
+}); //describe block 
