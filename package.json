@@ -1,0 +1,18 @@
+{
+  "name": "fundraising-qa-webapp",
+  "version": "1.0.0",
+  "description": "webapp test cases",
+  "main": "conf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://Tanak3@bitbucket.org/roundglass/fundraising-qa.git"
+  },
+  "homepage": "https://bitbucket.org/roundglass/fundraising-qa#readme"
+}
