@@ -2,10 +2,12 @@ describe('Campaign Create Spec' , function(){
                     beforeAll(function () {
                     browser.sleep(2000);  // wait for 2 minutes
                     });
-
-                    var path = require('path');
+        it('should make start settings',function(){
+                 var path = require('path');
+                 
                     browser.driver.manage().deleteAllCookies();                         
                     browser.driver.manage().window().maximize();
+                    browser.ignoreSynchronization=true
                     browser.get('http://givingapp-qa.stage-roundglass.com/login');
                     element(by.id('emailInput')).sendKeys(browser.params.validEmail);
                     element(by.id('passwordInput')).sendKeys(browser.params.validPwd);
@@ -16,9 +18,11 @@ describe('Campaign Create Spec' , function(){
                     browser.sleep(2000);
 
                     })
-                    afterEach(function(){
+        })
+                   
+                 /afterEach(function(){
                     browser.sleep(2000);
-                    })
+                    }) 
          
           it('should create a charity campaign' , function(){
                     element(by.cssContainingText('span','OVERVIEW')).getText().then(function (text) { console.log(text) });
@@ -27,7 +31,7 @@ describe('Campaign Create Spec' , function(){
                     element(by.cssContainingText('option', 'Charity')).click();         
                     element(by.id('campaignNameInput')).sendKeys(browser.params.Campaign_Name);
                     element(by.id('campaignSummaryInput')).sendKeys(browser.params.Campaign_Summary);      
-                    browser.sleep(2000);        
+                    browser.sleep(1000);        
                     element(by.cssContainingText('option', 'Elderly')).click();
                     //     element(by.tagName('fieldset')).element(by.className('form-control')).click();
                     //     element(by.tagName('fieldset')).element(by.tagName('input')).clear().sendKeys(5000); //campaign goal amount
@@ -35,13 +39,15 @@ describe('Campaign Create Spec' , function(){
                     //      element(by.cssContainingText('option','INR')).click();
                     //      element(by.model('campaign.goalAmount')).sendKeys(browser.params.Campaign_Location);
                    element(by.css('#fundraising-app-holder > div > create-campaign > div > div.container-fluid.customTabContent.campaignDetail.createCampaign > div > div > campaign-overview > div.container.form.createCampaign > div > form > div > div > div:nth-child(6) > div > div:nth-child(2) > div > auto-complete-widget > div > input')).sendKeys(browser.params.Campaign_Org);   
-                   browser.sleep(3000);
+                   browser.sleep(2000);
                    expect(element(by.css('#fundraising-app-holder > div > create-campaign > div > div.container-fluid.customTabContent.campaignDetail.createCampaign > div > div > campaign-overview > div.container.form.createCampaign > div > form > div > div > div:nth-child(6) > div > div:nth-child(2) > div > auto-complete-widget > div > div > div > li > a')).isPresent()).toBe(true);
-                   element(by.buttonText('Create')).click();           
+                   element(by.buttonText('Create')).click();
+                       
                                     });//Overview Block
 
                                     
                 it('should enter campaign details' , function(){
+                
                    element(by.cssContainingText('span','CAMPAIGN DETAILS')).getText().then(function (text) { console.log(text) });
                    element(by.cssContainingText('span','CAMPAIGN DETAILS')).click().then(function(){
                    browser.sleep(1000);
@@ -68,11 +74,12 @@ describe('Campaign Create Spec' , function(){
                    });
                   
                   }); });//Campaign Details Block
+                  browser.ignoreSynchronization=false
 
             it('should create a story',function(){
                    element(by.cssContainingText('span','OUR STORIES')).getText().then(function (text) { console.log(text) });
                    element(by.cssContainingText('span','OUR STORIES')).click().then(function(){
-                   element(by.css('.storyPanels .panel .container .addPanel .addNewFile .btn')).click().then(function(){          
+                   element(by.id('addStory')).click().then(function(){          
 
                     /*
                     var fileToUpload = '../data/pic.jpg';
@@ -95,13 +102,13 @@ describe('Campaign Create Spec' , function(){
                     browser.sleep(2000);
                     element(by.cssContainingText('span','Chapters')).click().then(function(){
                     browser.sleep(3000);
-                    element(by.css('#fundraising-app-holder > div > create-campaign > div > div.container-fluid.customTabContent.campaignDetail.createCampaign > div > div > manage-chapter-widget > div > div > div:nth-child(2) > div > div > div > div > div > div > a')).click().then(function(){
+                    element(by.id('addChapter')).click().then(function(){
                     browser.sleep(3000);
                     browser.executeScript('window.scrollTo(0,0);');
                     element(by.id('chapterTitleInput')).sendKeys(browser.params.chapter_Title);
-                    element(by.id('chapterSummaryInput')).sendKeys(browser.params.chapter_Summary).then(function(){
-                    element(by.id('chapterTitleInput')).click();
-                    });
+                    element(by.id('chapterSummaryInput')).sendKeys(browser.params.chapter_Summary).click();
+                   
+                   
                     browser.sleep(2000);
              /*
                     element(by.css('#fundraising-app-holder > div > create-campaign > div > div.container-fluid.customTabContent.campaignDetail.createCampaign > div > div > manage-chapter-widget > div > div > div:nth-child(2) > div:nth-child(2) > div > div > div.container-fluid > div > div.tab-pane.active > chapter-overview-widget > div.row > form > div.col-md-10.col-md-offset-1.col-sm-12 > div.chapterChamp.form-group > div > invitation-popup-widget > button')).click().then(function(){
@@ -118,7 +125,7 @@ describe('Campaign Create Spec' , function(){
             it('should create an event',function(){
                     element(by.cssContainingText('span','EVENTS')).getText().then(function (text) { console.log(text) });
                     element(by.cssContainingText('span','EVENTS')).click().then(function(){
-                    element(by.css('.outerPanel .container .addPanel .addNewFile .btn')).click().then(function(){        
+                    element(by.id('addEvent')).click().then(function(){        
                     element(by.id('eventTitleInput')).sendKeys(browser.params.event_Title);
                     element(by.id('eventDescriptionInput')).sendKeys(browser.params.event_Description);
                     element(by.id('eventVenueInput')).sendKeys(browser.params.event_Venue);
@@ -131,7 +138,7 @@ describe('Campaign Create Spec' , function(){
               it('should add a sponsor to campaign ',function(){
                     element(by.cssContainingText('span','SPONSORS')).getText().then(function (text) { console.log(text) });
                     element(by.cssContainingText('span','SPONSORS')).click().then(function(){
-                    element(by.css('.containerPanel .container .addPanel .addNewFile .btn')).click().then(function(){             
+                    element(by.id('addSponsor')).click().then(function(){             
                     element(by.id('sponsorNameInput')).sendKeys(browser.params.sponsor_Name);                    
 /*
                     var fileToUpload = '../data/pic.jpg';
@@ -147,7 +154,7 @@ describe('Campaign Create Spec' , function(){
                 it('should add FAQ to the campaign',function(){
                     element(by.cssContainingText('span','FAQ')).getText().then(function (text) { console.log(text) });
                     element(by.cssContainingText('span','FAQ')).click().then(function(){
-                    element(by.css('.container .addPanel .addNewFile .btn')).click().then(function(){          
+                    element(by.id('addFaq')).click().then(function(){          
                     element(by.id('faqTitleInput')).sendKeys(browser.params.FAQ_question);
                     element(by.id('faqDescriptionInput')).sendKeys(browser.params.FAQ_answer);            
                     element(by.buttonText('Save')).click();
@@ -177,8 +184,18 @@ describe('Campaign Create Spec' , function(){
                   element(by.buttonText('Save')).click();
            }); });
 
+            it('should submit the campaign',function(){
+            //  element(by.css('#fundraising-app-holder > div > create-campaign > div > create-campaign-banner > div > div > div > span > a')).click();
+             // element(by.css('#fundraising-app-holder > header > custom-alert > div > div.outer > div > div.alertFooter.text-center > button.btn.btn-success.btn-lg')).click();
+              //element(by.buttonText('Agree')).click();
+             // browser.sleep(1000);
+              element(by.cssContainingText('span','SUBMIT')).click();
+              
+          })
+
            it('should check logout to be successful',function(){
-                    element(by.css('#navbar > ul.nav.navbar-nav.navbar-right.right-menu > li.dropdown.profile')).click().then(function(){
+                   // element(by.css('#navbar > ul.nav.navbar-nav.navbar-right.right-menu > li.dropdown.profile')).click().then(function(){
+                    element(by.id('myAccount')).click().then(function(){
                     element(by.cssContainingText('a', 'Log Out')).click();
                     
                     })
